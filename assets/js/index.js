@@ -1,30 +1,35 @@
 $(function () {
+
   let layer = layui.layer;
 
   // 获取用户基本信息
-  $.ajax({
-    method: 'GET',
-    url: '/my/userinfo',
-    success: function (res) {
-      if (res.status !== 0) {
-        return layui.layer.msg('获取用户信息失败！')
-      }
+  window.mainshow = function () {
+    $.ajax({
+      method: 'GET',
+      url: '/my/userinfo',
+      success: function (res) {
+        if (res.status !== 0) {
+          return layui.layer.msg('获取用户信息失败！')
+        }
 
-      let data = res.data;
-      let name = data.username || data.nickname;
-      $('.layui-header #left_user').html('欢迎：' + name);
-      if (data.user_pic == null) {
-        // 渲染文本图像
-        $('.layui-header img').hide();
-        let first = name[0].toUpperCase();
-        $('.layui-header .img').html(first).show();
-      } else {
-        // 渲染图片图像
-        $('.layui-header .img').hide();
-        $('.layui-header img').prop('src', data.user_pic).show();
+        let data = res.data;
+        let name = data.nickname || data.username;
+        $('.layui-header #left_user').html('欢迎：' + name);
+        if (data.user_pic == null) {
+          // 渲染文本图像
+          $('.layui-header img').hide();
+          let first = name[0].toUpperCase();
+          $('.layui-header .img').html(first).show();
+        } else {
+          // 渲染图片图像
+          $('.layui-header .img').hide();
+          $('.layui-header img').prop('src', data.user_pic).show();
+        }
       }
-    }
-  })
+    })
+  }
+  mainshow();
+
 
   //点击退出
   $('#btn_goout').on('click', function (ers) {
