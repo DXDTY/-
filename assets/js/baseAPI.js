@@ -6,6 +6,7 @@ $.ajaxPrefilter(function (options) {
   if (options.url.indexOf('/my/') !== -1) {
     options.headers = { Authorization: localStorage.getItem('token') || '' }
   }
+  //非法登录用户页面时，强制返回登录页并清空本地token数据
   options.complete = function (res) {
     if (res.responseJSON.status === 1) {
       localStorage.removeItem('token');
